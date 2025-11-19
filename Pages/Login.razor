@@ -1,25 +1,33 @@
 ﻿@page "/login"
 @inject HttpClient Http
 
+@using ProjetoInicial.Models
+
 <PageTitle>Login</PageTitle>
 
-<Titulo texto="Login"></Titulo>
 
-<div class="container-sm text-center d-flex justify-content-center w-100">
-	<div class="card mt-4 p-3 w-50">
-		<div>
-			<label class="text-muted">Usuário:</label>
-			<input type="text" value="" class="form-control"/>
-		</div>
-		<div>
-			<label class="text-muted">Senha:</label>
-			<input type="password" value="" class="form-control" />
-		</div>
-		<button class="btn btn-outline-primary mt-3">Entrar</button>
+<div class="container-sm text-center d-flex flex-column justify-content-center w-100 align-items-center mt-lg-5">
+	<Titulo texto="Login"></Titulo>
+	<div class="card mt-4 p-3 col-4">
+		<EditForm Model="@pessoa" OnSubmit="logarPessoa">
+			<div>
+				<label class="text-muted">Usuário:</label>
+				<InputText class="form-control" @bind-Value=pessoa.nome/>
+			</div>
+			<div>
+				<label class="text-muted">Senha:</label>
+				<InputText type="password" class="form-control" @bind-Value=pessoa.senha />
+			</div>
+			<button class="btn btn-outline-primary mt-3">Entrar</button>
+		</EditForm>
 		<p style="font-size: 0.95rem;" class="mt-2">Ainda não tem uma conta? </p>
 		<a href="cadastro" style="font-size: 0.9rem;">Cadastre-se!</a>
 	</div>
 </div>
 @code {
+	Pessoa pessoa = new();
 
+	private void logarPessoa(){
+
+	}
 }
