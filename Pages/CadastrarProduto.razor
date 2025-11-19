@@ -4,69 +4,77 @@
 
 <Titulo texto="Cadastrar Produtos"></Titulo>
 
-<EditForm Model="@produto" OnSubmit="clica">
-	<div class="container-sm d-flex justify-content-center">
+<EditForm Model="@produto" OnValidSubmit="clica" OnInvalidSubmit="erro">
+    <div class="container-sm d-flex justify-content-center">
+        <div class="card mt-3 p-3 col-6">
+            <h5 class="text-danger">@erroMsg</h5>
+            <DataAnnotationsValidator></DataAnnotationsValidator>
 
-		<div class="card mt-3 p-3 col-6">
-			<DataAnnotationsValidator></DataAnnotationsValidator>
+            <label class="text-muted">Nome Produto</label>
+            <InputText class="form-control" @bind-Value=@produto.nome />
+            <ValidationMessage For="@(() => produto.nome)"></ValidationMessage>
+            <label class="text-muted">Quantidade</label>
+            <InputNumber TValue="int" class="form-control" @bind-Value=@produto.quantidade />
+            <ValidationMessage For="@(() => produto.quantidade)"></ValidationMessage>
+            <label class="text-muted">Preço</label>
+            <InputNumber TValue="double" class="form-control" @bind-Value=@produto.preco />
+            <ValidationMessage For="@(() => produto.preco)"></ValidationMessage>
+            <label class="text-muted">Valor total</label>
+            <label>R$ @string.Format("{0:0,0.00}", produto.quantidade * produto.preco)</label>
+        </div>
+    </div>
+    @if (!string.IsNullOrWhiteSpace(produto.nome) && double.IsNormal(produto.preco))
+    {
+        <h4 class="text-primary text-center mt-5">Informações do produto:</h4>
+        <div class="container-sm d-flex justify-content-center">
+            <div class="card p-4 col-6">
+                <h5 class="text-muted">Nome: </h5>
+                <h6>@produto.nome</h6>
+                <h5 class="text-muted">Quantidade em estoque: </h5>
+                <h6>@produto.quantidade</h6>
+                <h5 class="text-muted">Valor unitário: </h5>
+                <h6>R$ @string.Format("{0:0,0.00}", produto.preco)</h6>
+                <h5 class="text-muted">Valor total: </h5>
+                <h6>R$ @string.Format("{0:0,0.00}", produto.quantidade * produto.preco) </h6>
+                <button class="btn btn-outline-primary mt-2" type="submit">Adicionar produto</button>
 
-			<ValidationSummary></ValidationSummary>
-			<label class="text-muted">Nome Produto</label>
-			<InputText class="form-control" @bind-Value=@produto.nome />
-			<label class="text-muted">Quantidade</label>
-			<InputNumber TValue="int" class="form-control" @bind-Value=@produto.quantidade />
-			<label class="text-muted">Preço</label>
-			<InputNumber TValue="double" class="form-control" @bind-Value=@produto.preco />
-			<label class="text-muted">Valor total</label>
-			<label>R$ @string.Format("{0:0,0.00}", produto.quantidade * produto.preco)</label>
-		</div>
-	</div>
-	@if (!string.IsNullOrWhiteSpace(produto.nome) && double.IsNormal(produto.preco))
-	{
-		<h4 class="text-primary text-center mt-5">Informações do produto:</h4>
-		<div class="container-sm d-flex justify-content-center">
-			<div class="card p-4 col-6">
-				<h5 class="text-muted">Nome: </h5>
-				<h6>@produto.nome</h6>
-				<h5 class="text-muted">Quantidade em estoque: </h5>
-				<h6>@produto.quantidade</h6>
-				<h5 class="text-muted">Valor unitário: </h5>
-				<h6>R$ @produto.preco</h6>
-				<h5 class="text-muted">Valor total: </h5>
-				<h6>R$ @string.Format("{0:0,0.00}", produto.quantidade * produto.preco) </h6>
-				<button class="btn btn-outline-primary mt-2" type="submit">Adicionar produto</button>
-
-			</div>
-		</div>
-	}
+            </div>
+        </div>
+    }
 </EditForm>
 @if (botaoClicado == true)
 {
 
-	<div class="card mt-3 p-3 d-flex justify-content-between text-center flex-row">
-		<h3 class="text-success">Produto "@produto.nome" cadastrado!</h3>
-		<button class="btn btn-dark" @onclick="clica">X</button>
-	</div>
+    <div class="card mt-3 p-3 d-flex justify-content-between text-center flex-row">
+        <h3 class="text-success">Produto "@produto.nome" cadastrado!</h3>
+        <button class="btn btn-dark" @onclick="clica">X</button>
+    </div>
 
 }
 
 @code {
-	static Produto produto = new();
+    static Produto produto = new();
 
-	private void clica()
-	{
-		if (botaoClicado == true)
-		{
-			botaoClicado = false;
-			return;
-		}
-		botaoClicado = true;
-	}
+    String erroMsg = "";
 
-	Boolean botaoClicado = false;
+    private void clica()
+    {
+        if (botaoClicado == true)
+        {
+            botaoClicado = false;
+            return;
+        }
+        botaoClicado = true;
+    }
 
-	private void cadastraProduto()
-	{
+    private void erro()
+    {
+        erroMsg = "Deu erro aqui man";
+    }
+    Boolean botaoClicado = false;
 
-	}
+    private void cadastraProduto()
+    {
+
+    }
 }
