@@ -1,0 +1,66 @@
+﻿@page "/cadastrarproduto"
+
+@using ProjetoInicial.Models
+
+<Titulo texto="Cadastrar Produtos"></Titulo>
+
+<div class="container-sm">
+	<div class="card mt-3 p-3">
+		<label class="text-muted">Nome Produto</label>
+		<input type="text" class="form-control" @bind-value=@produto.nome />
+		<label class="text-muted">Quantidade</label>
+		<input type="number" class="form-control" @bind-value=@produto.quantidade />
+		<label class="text-muted">Preço</label>
+		<input type="number" class="form-control" @bind-value=@produto.preco />
+		<label class="text-muted">Valor total</label>
+		<label>R$@Math.Round(produto.quantidade * produto.preco, 2)</label>
+		<button class="btn btn-outline-primary mt-2" @onclick="clica">Adicionar produto</button>
+	</div>
+	@if (botaoClicado == true)
+	{
+
+		<div class="card mt-3 p-3 d-flex justify-content-between text-center flex-row">
+			<h3 class="text-success">Produto "@produto.nome" cadastrado!</h3>
+			<button class="btn btn-dark" @onclick="clica">X</button>
+		</div>
+		
+
+	}
+	@if (!string.IsNullOrWhiteSpace(produto.nome) && double.IsNormal(produto.preco)){
+		<div class="container-sm">
+			<h4 class="text-primary text-center mt-5">Informações produto:</h4>
+			<div class="card p-4">
+				<h5 class="text-muted">Nome: </h5>
+				<h6>@produto.nome</h6>
+				<h5 class="text-muted">Quantidade em estoque: </h5>
+				<h6>@produto.quantidade</h6>
+				<h5 class="text-muted">Valor unitário: </h5>
+				<h6>@produto.quantidade</h6>
+				<h5 class="text-muted">Valor total: </h5>
+				<h6>R$@Math.Round(produto.quantidade * produto.preco, 2)</h6>
+			</div>
+		</div>
+	}
+
+</div>
+
+@code {
+	Produto produto = new();
+
+	private void clica()
+	{
+		if (botaoClicado == true){
+			botaoClicado = false;
+			return;
+		}
+		botaoClicado = true;
+	}
+
+	private void limpaCampos(){
+		produto.nome = "";
+		produto.preco = 0;
+		produto.quantidade = 0;
+	}
+
+	Boolean botaoClicado = false;
+}
